@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+//Corinthians Campeão do Mundo
 @Entity
 @Table(name = "contagem")
 public class Contagem implements Serializable {
