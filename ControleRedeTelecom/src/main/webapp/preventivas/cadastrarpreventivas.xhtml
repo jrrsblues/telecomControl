@@ -1,0 +1,41 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Cadastrar Preventiva</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Cadastrar Preventiva</h1>
+		<h:form id="frm">
+           <p:messages id="messages" autoUpdate="true" showDetail="true" closable="true"/>
+
+           <p:panelGrid columns="2" id="painel1" style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+			  <p:outputLabel value="Ano" for="ano" />
+			  <p:inputText id="ano" size="20" maxlength="4" value="#{cadastroPreventivaBean.preventiva.ano}" style="color:Black;background:Yellow" readonly="false" />
+			  <p:outputLabel value="Mes" for="mes" />
+			  <p:inputText id="mes" size="20" maxlength="20" value="#{cadastroPreventivaBean.preventiva.mes}" style="color:Black;background:Yellow" readonly="false" />
+        	  <p:outputLabel value="UF" for="uf" />
+			  <p:inputText id="uf" size="20" maxlength="2" value="#{cadastroPreventivaBean.preventiva.uf}" style="color:Black;background:Yellow" readonly="false" />
+			  <p:outputLabel value="Site" for="site" />
+			  <p:inputText id="site" size="20" maxlength="10" value="#{cadastroPreventivaBean.preventiva.site}" style="color:Black;background:Yellow" readonly="false" />
+			  <p:outputLabel value="Tipo Preventiva" for="tipopreventiva" />
+			  <p:inputText id="tipopreventiva" size="20" maxlength="12"	value="#{cadastroPreventivaBean.preventiva.tipopreventiva}" style="color:Black;background:Yellow;" readonly="false" />
+		   </p:panelGrid>
+
+
+		   <p:panelGrid columns="1" id="painel6" style="width: 100%; margin-top: 20px; text-align:right" >
+                   <p:commandButton id="t" value="Cadastrar" icon="ui-icon-refresh" iconPos="right" oncomplete="confirmacaoCadastro.show()" update="@form"/> 
+		   </p:panelGrid>
+		   
+		   <p:confirmDialog header="Cadastro de preventiva" message="Tem certeza que deseja cadastrar dados desta preventiva?"
+	    		widgetVar="confirmacaoCadastro">
+	    		<p:button value="Não" onclick="confirmacaoCadastro.hide(); return false;" />
+	    		<p:commandButton value="Sim" oncomplete="confirmacaoCadastro.hide();" action="#{cadastroPreventivaBean.salvar}" process="@this" update=":frm"/>
+	    	</p:confirmDialog>
+    	
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,125 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Atualizar/Excluir Preventiva</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Atualizar/Excluir Preventiva</h1>
+	    <f:metadata>
+		    <f:viewParam name="dummy" />
+    		<f:event listener="#{pesquisaPreventivaBean.inicializar}" type="preRenderView" />
+        </f:metadata>
+		<h:form id="frm">
+            <p:messages id="messages" autoUpdate="true" showDetail="true" closable="true"/>
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:selectOneMenu id="anocombo" value="#{pesquisaPreventivaBean.preventiva.ano}"  filter="true" filterMatchMode="startsWith"	style="margin-bottom: 5px; margin-top: 5px; margin-left: 10px">
+						 <f:selectItem itemLabel="Selecione o ano" />
+						 <f:selectItems value="#{pesquisaPreventivaBean.anoRaizes}" var="pesquisaPreventivaBean" itemValue="#{anoRaizes}"  itemLabel="#{anoRaizes}" />
+	    				<p:ajax listener="#{pesquisaPreventivaBean.carregarSiteNames}" update="mescombo" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="mescombo" value="#{pesquisaPreventivaBean.preventiva.mes}" filter="true" filterMatchMode="startsWith" style="margin-bottom: 5px; margin-top: 5px; margin-left: 30px">
+						 <f:selectItem itemLabel="Selecione o mes" />
+						 <f:selectItems value="#{pesquisaPreventivaBean.mesRaizes}" var="pesquisaPreventivaBeanv" itemValue="#{mesRaizes}"  itemLabel="#{mesRaizes}" />
+	    				<p:ajax listener="#{pesquisaPreventivaBean.carregarSiteNames}" update="ufcombo" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="ufcombo"  value="#{pesquisaPreventivaBean.preventiva.uf}" filter="true" filterMatchMode="startsWith" style="margin-bottom: 5px; margin-top: 5px; margin-left: 30px">
+						 <f:selectItem itemLabel="Selecione o estado" />
+						 <f:selectItems value="#{pesquisaPreventivaBean.ufRaizes}" var="pesquisaPreventivaBean"
+	    				itemValue="#{ufRaizes}"  itemLabel="#{ufRaizes}" />
+	    				<p:ajax listener="#{pesquisaPreventivaBean.carregarSiteNames}" update="sitecombo" />
+				    </p:selectOneMenu>
+
+					<p:selectOneMenu id="sitecombo" value="#{pesquisaPreventivaBean.preventiva.site}" filter="true" filterMatchMode="startsWith" style="margin-bottom: 5px; margin-top: 5px; margin-left: 30px">
+    			        <f:selectItem itemLabel="Selecione o site" />
+						<f:selectItems value="#{pesquisaPreventivaBean.siteRaizes}" var="pesquisaPreventivaBean"
+	    				itemValue="#{siteRaizes}" itemLabel="#{siteRaizes}" />
+	    				<p:ajax listener="#{pesquisaPreventivaBean.carregarTipoPreventiva}" update="tipopreventivacombo" />
+                    </p:selectOneMenu>
+
+					<p:selectOneMenu id="tipopreventivacombo" value="#{pesquisaPreventivaBean.preventiva.tipopreventiva}" style="margin-bottom: 5px; margin-top: 5px; margin-left: 30px">
+						<f:selectItem itemLabel="Selecione o tipo de preventiva" />
+						<f:selectItems value="#{pesquisaPreventivaBean.tipopreventivaRaizes}" var="pesquisaPreventivaBean"
+	    				itemValue="#{tipopreventivaRaizes}" itemLabel="#{tipopreventivaRaizes}" />
+					</p:selectOneMenu>
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:commandButton id="s" value="Pesquisar" action="#{pesquisaPreventivaBean.pesquisar}" update="@form"/>
+				</p:toolbarGroup>
+				
+				<p:toolbarGroup align="right">
+					<p:commandButton id="z" value="Enviar Email" action="#{envioMensagemBean.enviarMensagem}" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+           <p:panelGrid columns="10" id="painel" style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+			  <p:outputLabel value="Ano" for="anofim" />
+			  <p:inputText id="anofim" size="20" maxlength="4" value="#{pesquisaPreventivaBean.anofim}" style="color:Black;background:Yellow" readonly="false" />
+			  
+			  <p:outputLabel value="Mes" for="mesfim" />
+			  <p:inputText id="mesfim" size="20" maxlength="10" value="#{pesquisaPreventivaBean.mesfim}" style="color:Black;background:Yellow" readonly="false" />
+			  
+			  <p:outputLabel value="UF" for="uffim" />
+			  <p:inputText id="uffim" size="20" maxlength="10" value="#{pesquisaPreventivaBean.uffim}" style="color:Black;background:Yellow" readonly="false" />
+			  
+			  <p:outputLabel value="Site" for="sitefim" />
+			  <p:inputText id="sitefim" size="20" maxlength="10" value="#{pesquisaPreventivaBean.preventiva.site}" style="color:Black;background:Yellow" readonly="true" />
+			  
+			  <p:outputLabel value="Tipo Preventiva" for="tipopreventivafim" />
+			  <p:inputText id="tipopreventivafim" size="20" maxlength="10"	value="#{pesquisaPreventivaBean.preventiva.tipopreventiva}" style="color:Black;background:Yellow;" readonly="true" />
+		   </p:panelGrid>
+
+		   <p:panelGrid columns="6" id="painel2"	style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+			<p:outputLabel value="Executor" for="executor" />
+			<p:inputText id="executor" value="#{pesquisaPreventivaBean.preventiva.executor}"  size="60" maxlength="80" />
+			<p:outputLabel value="Data Planejada" for="dataplanejada" />
+			<p:calendar id="dataplanejada" value="#{pesquisaPreventivaBean.preventiva.dataplanejada}" pattern="dd/MM/yyyy" navigator="false" pages="1" mode="popup" locale="pt" />
+			<p:outputLabel value="Data Executada" for="dataexecutada" />
+			<p:calendar id="dataexecutada" value="#{pesquisaPreventivaBean.preventiva.dataexecutada}" pattern="dd/MM/yyyy"	navigator="false" pages="1" mode="popup" locale="pt" />
+		   </p:panelGrid>
+		 
+		   <p:panelGrid columns="4" id="painel3" style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+			<p:outputLabel value="Auditor" for="auditor" />
+			<p:inputText id="auditor" value="#{pesquisaPreventivaBean.preventiva.auditor}" size="60" maxlength="80" />
+			<p:outputLabel value="Data Auditoria" for="dataauditoria" />
+			<p:calendar id="dataauditoria" value="#{pesquisaPreventivaBean.preventiva.dataauditoria}" pattern="dd/MM/yyyy"	navigator="false" pages="1" mode="popup" locale="pt" />
+			<p:outputLabel value="Resultado Auditoria" for="resultadoauditoria" />
+			<p:selectOneRadio id="resultadoauditoria" value="#{pesquisaPreventivaBean.preventiva.resultadoauditoria}" layout="lineDirection">
+				<f:selectItem itemLabel="Aprovado" itemValue="aprovado" />
+				<f:selectItem itemLabel="Reprovado" itemValue="reprovado" />
+			</p:selectOneRadio>
+			<p:outputLabel value="Motivo(s) Rejeicao" for="motivorejeicao" />
+			<p:inputTextarea id="motivorejeicao" value="#{pesquisaPreventivaBean.preventiva.rejeicaointernamotivo}" cols="40" rows="4" />
+			<p:outputLabel value="Preventiva Corrigida(S/N)" for="preventivacorrigida" />
+			<p:selectOneRadio id="preventivacorrigida" value="#{pesquisaPreventivaBean.preventiva.preventivacorrigida}" styleClass="sem-bordas" layout="lineDirection">
+				<f:selectItem itemLabel="Sim" itemValue="sim" />
+				<f:selectItem itemLabel="Nao" itemValue="nao" />
+			</p:selectOneRadio>
+			<p:outputLabel value="Data Correçao" for="datacorrecao" />
+			<p:calendar id="datacorrecao" value="#{pesquisaPreventivaBean.preventiva.datacorrecao}" pattern="dd/MM/yyyy" navigator="false" pages="1" mode="popup" locale="pt" />
+		   </p:panelGrid>
+		   
+		   <p:panelGrid columns="2" id="painel4" style="width: 100%; margin-top: 20px; text-align:right" >
+                   <p:commandButton id="t" value="Atualizar" icon="ui-icon-refresh" iconPos="right" oncomplete="confirmacaoEdicao.show()" update="@form"/> <p:commandButton id="x" value="Excluir" icon="ui-icon-trash" iconPos="right" oncomplete="confirmacaoExclusao.show()" update="@form"/>
+		   </p:panelGrid>
+		   <h:inputHidden id="id" value="#{pesquisaPreventivaBean.preventiva.id}"/>
+		   <p:confirmDialog header="Exclusão de preventiva" message="Tem certeza que deseja excluir esta preventiva?"
+	    		widgetVar="confirmacaoExclusao">
+	    		<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;" />
+	    		<p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide();" action="#{pesquisaPreventivaBean.excluir}" process="@this" update=":frm"/>
+	    	</p:confirmDialog>
+	    	
+	    	<p:confirmDialog header="Edição de preventiva" message="Tem certeza que deseja alterar dados desta preventiva?"
+	    		widgetVar="confirmacaoEdicao">
+	    		<p:button value="Não" onclick="confirmacaoEdicao.hide(); return false;" />
+	    		<p:commandButton value="Sim" oncomplete="confirmacaoEdicao.hide();" action="#{pesquisaPreventivaBean.atualizar}" process="@this" update=":frm"/>
+	    	</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

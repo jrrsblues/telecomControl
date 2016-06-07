@@ -1,0 +1,66 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisar Preventiva Customizada</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Pesquisar Preventiva Customizada</h1>
+		<h:form id="frm">
+            <p:messages autoUpdate="true" closable="true"/>
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup align="right">
+					<p:commandButton id="s" value="Pesquisar" action="#{pesquisaPreventivaCustomizadaBean.pesquisar}" update="@form"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+          <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="ID Preventiva" />
+	    		<h:panelGroup>
+	    			<p:inputText id="idDe" size="10" value="#{pesquisaPreventivaCustomizadaBean.filtro.idDe}" />
+	    			a
+	    			<p:inputText id="idAte" size="10" value="#{pesquisaPreventivaCustomizadaBean.filtro.idAte}" />
+	    		</h:panelGroup>
+	    		
+	    		<p:outputLabel value="Data Planejada" />
+	    		<h:panelGroup>
+	    			<p:calendar id="dataPlanejadaDe" size="10" pattern="dd/MM/yyyy" value="#{pesquisaPreventivaCustomizadaBean.filtro.dataPlanejadaDe}"/>
+	    			a
+	    			<p:calendar id="dataPlanejadaAte" size="10" pattern="dd/MM/yyyy" value="#{pesquisaPreventivaCustomizadaBean.filtro.dataPlanejadaAte}"/>
+	    		</h:panelGroup>
+	    		
+	    		<p:outputLabel value="Executor" />
+	    		<p:inputText size="40" value="#{pesquisaPreventivaCustomizadaBean.filtro.executor}" />
+    		</p:panelGrid>
+	    		    	
+	    	<p:dataTable id="preventivasTable" value="#{pesquisaPreventivaCustomizadaBean.preventivasFiltradas}" var="preventivas"
+	    		style="margin-top: 20px" emptyMessage="Nenhuma preventiva encontrada."
+	    		rows="20" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+	    		<p:column headerText="ID" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{preventivas.id}"/>
+	    		</p:column>
+	    		<p:column headerText="Ano" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{preventivas.ano}"/>
+	    		</p:column>
+	    		<p:column headerText="Mes" style="text-align: center; width: 80px">
+	    			<h:outputText value="#{preventivas.mes}" />
+	    		</p:column>
+	    		<p:column headerText="UF" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{preventivas.uf}"/>
+	    		</p:column>
+	    		<p:column headerText="Site" style="text-align: center; width: 120px">
+	    			<h:outputText value="#{preventivas.site}"/>
+	    		</p:column>
+	    		<p:column headerText="Tipo Preventiva" style="width: 150px">
+	    			<h:outputText value="Emitido"/>
+	    		</p:column>
+	    		<p:column style="text-align: center; width: 50px">
+	    			<p:button icon="ui-icon-pencil" title="Editar"/>
+	    		</p:column>
+	    	</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
